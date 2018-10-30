@@ -1,10 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+// const cors = require('cors');
 const session = require("express-session");
 const config = require("./config-local.json");
 
-const app = express();
+let app = express();
 
 const movieRouter = require("./modules/api/movies/router");
 const listRouter = require("./modules/api/listfavor/router");
@@ -12,6 +13,7 @@ const TVRouter = require("./modules/api/TVseries/router");
 const authRouter = require("./modules/api/auth/router");
 const userRouter = require("./modules/api/user/router");
 
+// app.use(cors());
 app.use((req, res, next) => {
   res.setHeader("X-Frame-Options", "ALLOWALL");
   res.setHeader(
@@ -54,9 +56,7 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-app.use(bodyParser.json({
-  extended: false
-}));
+app.use(bodyParser.json({ extended: false }));
 
 
 app.use("/api/movies", movieRouter);
@@ -71,6 +71,7 @@ app.get("/", (req, res) => {
   res.send("Homepage connect successful!");
 });
 
+// const port =  6969;
 const port = process.env.PORT || 6969;
 
 app.listen(port, err => {
