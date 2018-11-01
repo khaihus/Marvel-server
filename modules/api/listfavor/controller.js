@@ -36,7 +36,7 @@ const getAllListDB = (username) =>
       })
       .catch(err => {
         reject(err);
-        console.log(err + " loi roi")
+        console.log(err)
       });
   });
 const addToList = (username, ob) =>

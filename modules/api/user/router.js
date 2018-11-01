@@ -4,6 +4,7 @@ const router = express.Router();
 
 const userController = require("./controller");
 const authMiddleware = require("../auth/auth");
+const listController = require('../listfavor/controller');
 
 router.get("/", (req, res) => {
     userController
@@ -22,6 +23,10 @@ router.post("/", (req, res) => {
             console.error(err);
             res.status(500).send(err);
         });
+    let body = {username : req.body.username, listfv:[{}]};
+    listController.createlist(body)
+        .then(data => res.send(data))
+        .catch(err => res.status(500).send(err));
 });
 router.get("/:id", (req, res) => {
     userController
@@ -49,15 +54,15 @@ router.put("/:id/password", (req, res) => {
 });
 router.delete("/:id", (req, res) => {
     if (req.session.id !== req.params.id) {
-      return res.status(401).send("Unauthorized!");
+        return res.status(401).send("Unauthorized!");
     }
-  
+
     userController
-      .deleteUser(req.params.id)
-      .then(id => res.send(id))
-      .catch(err => {
-        console.error(err);
-        res.status(500).send(err);
-      });
-  });
-  module.exports = router;
+        .deleteUser(req.params.id)
+        .then(id => res.send(id))
+        .catch(err => {
+            console.error(err);
+            res.status(500).send(err);
+        });
+});
+module.exports = router;
